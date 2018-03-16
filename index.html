@@ -1,0 +1,84 @@
+<html>
+
+<link rel="stylesheet" href="style.css">
+<link href='https://fonts.googleapis.com/css?family=Cormorant+Garamond:400,400italic,700,700italic' rel='stylesheet' type='text/css'>
+
+<body onload='getLocation()'>
+
+
+
+    <div id=home ; class="div">
+
+        <h1>Local Weather</h1>
+
+        <div id="x" class="x"></div>
+        <p id="a"></p>
+        <p id="b"></p>
+
+
+        <button class='button' onclick="changeText()">Fahrenheit</button>
+        <button class='button' onclick="changeTextT()">Celsius</button>
+
+        <p id="c" class="text"></p>
+        <p id="f" class="text"></p>
+    </div>
+
+    <script>
+        var x = document.getElementById("x");
+        var a = document.getElementById("a");
+        var b = document.getElementById("b");
+        var c = document.getElementById("c");
+        var f = document.getElementById("f");
+
+        var url = "https://fcc-weather-api.glitch.me/api/current?"
+        function getLocation() {
+            if (navigator.geolocation) {
+                navigator.geolocation.getCurrentPosition(showPosition);
+            } else {
+                x.innerHTML = "Geolocation is not supported by this browser.";
+            }
+        }
+        function showPosition(position) {
+
+            fetch(`${url}lat=${position.coords.latitude}&lon=${position.coords.longitude}`, )
+                .then(function (response) {
+                    return response.json();
+                })
+                .then(function (myJson) {
+                    console.log(myJson);
+                    x.innerHTML = `<img src="${myJson.weather[0].icon}" />`;
+                    a.innerHTML = 'wither in your location is' + ' ' + myJson.weather[0].description;
+                    b.innerHTML = 'temp' + ' ' + (myJson.main.temp * 1.8 + 32) + ' ' + 'F';
+                    c.innerHTML = 'temp' + ' ' + myJson.main.temp + ' ' + 'C';
+                    f.innerHTML = 'temp' + ' ' + (myJson.main.temp * 1.8 + 32) + ' ' + 'F';
+                });
+        }
+
+        function changeText(myJson) {
+
+            var b = document.getElementById("b");
+            var f = document.getElementById("f");
+
+
+            document.getElementById('b').innerHTML = f.innerHTML
+
+
+        }
+
+        function changeTextT(myJson) {
+
+            var b = document.getElementById("b");
+            var c = document.getElementById("c");
+
+
+            document.getElementById('b').innerHTML = c.innerHTML
+
+
+        }
+
+    </script>
+
+</body>
+
+
+</html>
